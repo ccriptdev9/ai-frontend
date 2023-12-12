@@ -17,7 +17,8 @@ export function useDevice() {
       deviceInstance.on("registered", handleSuccessfulRegistration);
 
       deviceInstance.audio.outgoing(false);
-      deviceInstance.audio.incoming(false);
+      // deviceInstance.audio.incoming(false);
+      deviceInstance.audio.disconnect(false);
 
       deviceInstance.on("tokenWillExpire", async () => {
         const token = await fetchToken();
