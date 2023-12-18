@@ -109,11 +109,12 @@ function App() {
     await addUser(user).then(() => {
       alert("Account created succesfully");
 
-      setStep(1);
       setPhone();
       setEmail();
       setOtp();
       setName();
+
+      setStep(1);
     });
   };
 
