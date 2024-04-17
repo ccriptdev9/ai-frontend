@@ -74,7 +74,7 @@ function App() {
             </Button>
           </div>
         ) : (
-          <div className="flex items-center gap-y-3 flex-col w-[500px] bg-green-300">
+          <div className="flex items-center gap-y-3 flex-col w-[500px]">
             <TextField.Input
               size="3"
               className="block w-full"
