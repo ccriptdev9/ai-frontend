@@ -3,15 +3,16 @@ import { useState } from "react";
 import "@radix-ui/themes/styles.css";
 
 import { useDevice } from "./twilio";
-import { Button, Flex, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Flex, Text, TextField } from "@radix-ui/themes";
 
 // const PHONE_NUMBER = "+923055952372";
 // const PHONE_NUMBER = "+12057402083";
-const PHONE_NUMBER = "+14697074725";
+// const PHONE_NUMBER = "+14697074725";
 
 function App() {
   const { device } = useDevice();
   const [phone, setPhone] = useState();
+  const [businessPhone, setBusinessPhone] = useState();
 
   const [error, setError] = useState();
 
@@ -29,7 +30,8 @@ function App() {
     try {
       let call = await device.connect({
         params: {
-          To: PHONE_NUMBER,
+          // To: PHONE_NUMBER,
+          To: businessPhone,
           From: phone,
           // customerId: CUSTOMER_ID,
           // customerPhoneNumber: "+923055952375",
@@ -53,9 +55,13 @@ function App() {
 
     const regex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
 
-    const isValid = regex.test(`${phone}`);
+    let isValid = regex.test(`${phone}`);
 
-    if (!isValid) return setError("Please provide a valid phone number");
+    if (!isValid) return setError("Your phone number is not valid");
+
+    isValid = regex.test(`${businessPhone}`);
+
+    if (!isValid) return setError("Business phone number is not valid");
 
     setShowCallButton(true);
   };
@@ -74,15 +80,27 @@ function App() {
             </Button>
           </div>
         ) : (
-          <div className="flex items-center gap-y-3 flex-col w-[500px]">
+          <div className="flex items-center gap-y-3 flex-col">
+            <Box maxWidth="300px">
+              <TextField.Input
+                size="3"
+                className="flex min-w-[350px] w-full"
+                placeholder="Your Phone (+13xxxxxxxxx)"
+                required
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Box>
+
             <TextField.Input
               size="3"
-              className="block w-full"
-              placeholder="Phone (+923xxxxxxxxx)"
+              className="block min-w-[350px] w-full"
+              placeholder="Business (Company) Phone (+13xxxxxxxxx)"
               required
               type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={businessPhone}
+              onChange={(e) => setBusinessPhone(e.target.value)}
             />
 
             <Text as="p" color="red">
